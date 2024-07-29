@@ -36,10 +36,10 @@ def open_new_interface(user):
     logoin_right1 = CTkLabel(new_window, image=logoin, text="", fg_color="#333D79")
     logoin_right1.place(relx=0.5, rely=0.5, anchor="center")
 
-    # # Load and display the icon
-    # icon = CTkImage(dark_image=Image.open("D:\Project Examasap\open-book.ico"), size=(40, 40))  # Adjust size as needed
-    # icon_label = CTkLabel(new_window, image=icon, text="", fg_color="transparent")
-    # icon_label.place(relx=0.1, rely=0.1, anchor="center")  # Adjust position as needed
+    # Load and display the icon
+    icon = CTkImage(dark_image=Image.open("D:\Project Examasap\Instrucor-Interface\Book-open_icon-icons.com_52251.ico"), size=(40, 40))  # Adjust size as needed
+    icon_label = CTkLabel(new_window, image=icon, text="", fg_color="transparent")
+    icon_label.place(relx=0.05, rely=0.1, anchor="n")  # Adjust position as needed
 
     # Create a frame for buttons at the top-right
     button_frame = CTkFrame(new_window, fg_color="transparent")
@@ -121,13 +121,24 @@ def open_new_interface(user):
     profile_button.bind("<Enter>", lambda e: on_enter(profile_button))
     profile_button.bind("<Leave>", lambda e: on_leave(profile_button))
 
-     # Add a full-width line below the buttons
+    # Add a full-width line below the buttons
     line_frame = CTkFrame(new_window, height=2, fg_color="white")  # Thin white line
     line_frame.place(relx=0.5, rely=0.16, anchor="center", relwidth=1.0)
 
-
     vertical_line = CTkFrame(new_window, width=2, fg_color="white")
     vertical_line.place(relx=0.75, rely=0.16, anchor="n", relheight=0.84)
+
+    # Create a left_frame immediately to the right of the vertical_line
+    left_frame = CTkFrame(new_window, width=400, height=750, fg_color="black", corner_radius=10)
+    left_frame.place(relx=0.88, rely=0.58, anchor="center")
+
+    # Add label to the left_frame
+    instructorname_label = CTkLabel(left_frame, text="Instructors Available", font=("Segoe UI", 20, "bold"), text_color="white")
+    instructorname_label.place(relx=0.5, rely=0.1, anchor="center")
+
+    # Add a full-width line to the left_frame
+    line_frame1 = CTkFrame(left_frame, height=2, fg_color="white")  # Thin white line
+    line_frame1.place(relx=0.5, rely=0.2, anchor="n", relwidth=1.0) 
 
     con = sqlite3.connect("databaseexam.db")
     cur = con.cursor()
