@@ -28,19 +28,18 @@ def open_new_interface(user):
     new_window = CTkToplevel()
     new_window.title("New Interface")
     new_window.state('zoomed')
-    new_window.iconbitmap("D:\Project Examasap\open-book.ico")
 
     label = CTkLabel(new_window, text="Welcome to the new interface!", font=("Segoe UI", 16, "bold"))
     label.place(relx=0.5, rely=0.1, anchor="center")
 
-    logoin = CTkImage(dark_image=Image.open("D:/Project Examasap/photo00.png"), size=(1920, 1080))
+    logoin = CTkImage(dark_image=Image.open("D:\Project Examasap\Instrucor-Interface\photo00.png"), size=(1920, 1080))
     logoin_right1 = CTkLabel(new_window, image=logoin, text="", fg_color="#333D79")
     logoin_right1.place(relx=0.5, rely=0.5, anchor="center")
 
-    # Load and display the icon
-    icon = CTkImage(dark_image=Image.open("D:\Project Examasap\open-book.ico"), size=(40, 40))  # Adjust size as needed
-    icon_label = CTkLabel(new_window, image=icon, text="", fg_color="transparent")
-    icon_label.place(relx=0.1, rely=0.1, anchor="center")  # Adjust position as needed
+    # # Load and display the icon
+    # icon = CTkImage(dark_image=Image.open("D:\Project Examasap\open-book.ico"), size=(40, 40))  # Adjust size as needed
+    # icon_label = CTkLabel(new_window, image=icon, text="", fg_color="transparent")
+    # icon_label.place(relx=0.1, rely=0.1, anchor="center")  # Adjust position as needed
 
     # Create a frame for buttons at the top-right
     button_frame = CTkFrame(new_window, fg_color="transparent")
@@ -122,11 +121,14 @@ def open_new_interface(user):
     profile_button.bind("<Enter>", lambda e: on_enter(profile_button))
     profile_button.bind("<Leave>", lambda e: on_leave(profile_button))
 
-    # Add a line or box below the buttons
-    line_frame = CTkFrame(new_window, width=400, height=2, fg_color="white")  # Thin white line
-    line_frame.place(relx=0.9, rely=0.16, anchor="ne")  # Position below the buttons
+     # Add a full-width line below the buttons
+    line_frame = CTkFrame(new_window, height=2, fg_color="white")  # Thin white line
+    line_frame.place(relx=0.5, rely=0.16, anchor="center", relwidth=1.0)
 
-    # Your existing database connection code (if needed)
+
+    vertical_line = CTkFrame(new_window, width=2, fg_color="white")
+    vertical_line.place(relx=0.75, rely=0.16, anchor="n", relheight=0.84)
+
     con = sqlite3.connect("databaseexam.db")
     cur = con.cursor()
     con.close()

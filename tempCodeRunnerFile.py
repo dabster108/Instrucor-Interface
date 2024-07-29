@@ -1,16 +1,17 @@
 from customtkinter import *
 from PIL import Image
 import tkinter as tk
-import sqlite3
+import sqlite3 
 import webbrowser
 import login
+import time 
 
 root = CTk()
 root.state('zoomed')
 root.title("Instructor ASAP")
 
 
-logoin = CTkImage(dark_image=Image.open("D:/Project Examasap/photo3.jpg"), size=(1920, 1080))
+logoin = CTkImage(dark_image=Image.open("D:\Project Examasap\Instrucor-Interface\photo00.png"), size=(1920, 1080))
 logoin_right1 = CTkLabel(root, image=logoin, text="", fg_color="#333D79")
 logoin_right1.place(relx=0.5, rely=0.5, anchor="center")
 
