@@ -1,23 +1,23 @@
+    
+    
 from customtkinter import *
 from PIL import Image
 import tkinter as tk
-import sqlite3 
+import sqlite3
 import webbrowser
 import login
-import time 
 
 root = CTk()
 root.state('zoomed')
 root.title("Instructor ASAP")
 
 
-logoin = CTkImage(dark_image=Image.open("D:\Project Examasap\Instrucor-Interface\photo00.png"), size=(1920, 1080))
+logoin = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\photo00.png"), size=(1920, 1080))
 logoin_right1 = CTkLabel(root, image=logoin, text="", fg_color="#333D79")
 logoin_right1.place(relx=0.5, rely=0.5, anchor="center")
 
 frame = CTkFrame(root, width=550, height=850, fg_color="gray20", corner_radius=10)
 frame.place(relx=0.5, rely=0.5, anchor="center")
-
 
 welcome_label = CTkLabel(frame, text="Welcome to Instructor App", font=("Wensley", 28, "bold"), text_color="white")
 welcome_label.place(relx=0.5, rely=0.1, anchor="n")
@@ -25,7 +25,6 @@ welcome_label.place(relx=0.5, rely=0.1, anchor="n")
 description = CTkLabel(frame, text=("Unlock student potential with our intuitive instructor app,\ndesigned to simplify teaching and amplify learning"),
                        font=("Segoe UI", 16), text_color="white")
 description.place(relx=0.5, rely=0.2, anchor="center")
-
 
 
 username_label = CTkLabel(frame, text="Username:", font=("Segoe UI", 16, "bold"), text_color="yellow")
@@ -123,5 +122,3 @@ contact_button.place(relx=0.5, rely=0.7, anchor="w")
 
 initialize_db()
 root.mainloop()
-
-

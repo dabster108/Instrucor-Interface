@@ -4,12 +4,16 @@ from PIL import Image
 import tkinter as tk
 
 def login_user(username, password):
-    conn = sqlite3.connect('databaseexam.db')
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password))
-    user = cursor.fetchone()
-    conn.close()
-    return user
+    try:
+        conn = sqlite3.connect('databaseexam.db')
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM users WHERE username = ? AND password = ?', (username, password))
+        user = cursor.fetchone()
+        conn.close()
+        return user
+    except Exception as e:
+        print(f"Error in login_user: {e}")
+        return None
 
 def login(root, username, password, frame):
     for widget in frame.winfo_children():
@@ -32,33 +36,34 @@ def open_new_interface(user):
     label = CTkLabel(new_window, text="Welcome to the new interface!", font=("Segoe UI", 20, "bold"))
     label.place(relx=0.5, rely=0.1, anchor="center")
 
-    logoin = CTkImage(dark_image=Image.open("D:\\Project Examasap\\Instrucor-Interface\\photo00.png"), size=(1920, 1080))
-    logoin_right1 = CTkLabel(new_window, image=logoin, text="", fg_color="#333D79")
-    logoin_right1.place(relx=0.5, rely=0.5, anchor="center")
+    try:
+        logoin = CTkImage(dark_image=Image.open("D:\\Project Examasap\\Instrucor-Interface\\photo00.png"), size=(1920, 1080))
+        logoin_right1 = CTkLabel(new_window, image=logoin, text="", fg_color="#333D79")
+        logoin_right1.place(relx=0.5, rely=0.5, anchor="center")
+    except Exception as e:
+        print(f"Error loading background image: {e}")
 
-    # Load and display the icon
-    icon = CTkImage(dark_image=Image.open("D:\\Project Examasap\\Instrucor-Interface\\Book-open_icon-icons.com_52251.ico"), size=(40, 40))  # Adjust size as needed
-    icon_label = CTkLabel(new_window, image=icon, text="", fg_color="transparent")
-    icon_label.place(relx=0.05, rely=0.1, anchor="n")  # Adjust position as needed
+    try:
+        icon = CTkImage(dark_image=Image.open("D:\\Project Examasap\\Instrucor-Interface\\Book-open_icon-icons.com_52251.ico"), size=(40, 40))
+        icon_label = CTkLabel(new_window, image=icon, text="", fg_color="transparent")
+        icon_label.place(relx=0.05, rely=0.1, anchor="n")
+    except Exception as e:
+        print(f"Error loading icon image: {e}")
 
-    # Create a frame for buttons at the top-right
     button_frame = CTkFrame(new_window, fg_color="transparent")
     button_frame.place(relx=0.9, rely=0.1, anchor="ne")
 
-    # Function to display tooltip
     def show_tooltip(event, text, width, height):
         global tooltip
         tooltip = CTkLabel(new_window, text=text, font=("Segoe UI", 12), fg_color="black", text_color="white", width=width, height=height, corner_radius=10, wraplength=width - 20)
         tooltip.place(x=event.x_root + 10, y=event.y_root, anchor="nw")
 
-    # Function to hide tooltip
     def hide_tooltip(event):
         global tooltip
         if tooltip:
             tooltip.destroy()
             tooltip = None
 
-    # Functions for tooltips
     def show_description_tooltip(event):
         text = ("The Instructor App is a project developed by the talented students of AI Softwarica College. "
                 "This innovative interface is designed to connect students with the college's most brilliant teachers, "
@@ -77,78 +82,54 @@ def open_new_interface(user):
         text = f"Username: {user[1]}\nEmail: {user[2]}"
         show_tooltip(event, text, 300, 100)
 
-    # Create buttons with hover effects
-    description_button = CTkButton(
-        button_frame, 
-        text="Description", 
-        width=120, 
-        height=40, 
-        corner_radius=10  # Rounded corners
-    )
-    description_button.pack(side='left', padx=5)  # Align buttons in a row with spacing
+    description_button = CTkButton(button_frame, text="Description", width=120, height=40, corner_radius=10)
+    description_button.pack(side='left', padx=5)
     description_button.bind("<Enter>", show_description_tooltip)
     description_button.bind("<Leave>", hide_tooltip)
 
-    contact_button = CTkButton(
-        button_frame, 
-        text="Contact", 
-        width=120, 
-        height=40, 
-        corner_radius=10
-    )
+    contact_button = CTkButton(button_frame, text="Contact", width=120, height=40, corner_radius=10)
     contact_button.pack(side='left', padx=5)
     contact_button.bind("<Enter>", show_contact_tooltip)
     contact_button.bind("<Leave>", hide_tooltip)
 
-    profile_button = CTkButton(
-        button_frame, 
-        text="Profile", 
-        width=120, 
-        height=40, 
-        corner_radius=10
-    )
+    profile_button = CTkButton(button_frame, text="Profile", width=120, height=40, corner_radius=10)
     profile_button.pack(side='left', padx=5)
     profile_button.bind("<Enter>", show_profile_tooltip)
     profile_button.bind("<Leave>", hide_tooltip)
 
-    # Add a full-width line below the buttons
-    line_frame = CTkFrame(new_window, height=2, fg_color="white")  # Thin white line
+    line_frame = CTkFrame(new_window, height=2, fg_color="white")
     line_frame.place(relx=0.5, rely=0.16, anchor="center", relwidth=1.0)
 
     vertical_line = CTkFrame(new_window, width=2, fg_color="white")
     vertical_line.place(relx=0.75, rely=0.16, anchor="n", relheight=0.84)
 
-    # Create a left_frame immediately to the right of the vertical_line
     left_frame = CTkFrame(new_window, width=400, height=750, fg_color="black", corner_radius=10)
     left_frame.place(relx=0.88, rely=0.58, anchor="center")
 
-    # Add label to the left_frame
     instructorname_label = CTkLabel(left_frame, text="Instructors Available", font=("Segoe UI", 20, "bold"), text_color="white")
     instructorname_label.place(relx=0.5, rely=0.1, anchor="center")
 
-    # Add a full-width line to the left_frame
-    line_frame1 = CTkFrame(left_frame, height=2, fg_color="white")  # Thin white line
+    line_frame1 = CTkFrame(left_frame, height=2, fg_color="white")
     line_frame1.place(relx=0.5, rely=0.2, anchor="n", relwidth=1.0)
 
-    # Add checkboxes for the instructors
     gir_sir_checkbox = CTkCheckBox(left_frame, text="Gir Sir", font=("Segoe UI", 16, "bold"), text_color="white", fg_color="#1a73e8")
     gir_sir_checkbox.place(relx=0.5, rely=0.3, anchor="center")
 
     siddart_sir_checkbox = CTkCheckBox(left_frame, text="Siddart Sir", font=("Segoe UI", 16, "bold"), text_color="white", fg_color="#1a73e8")
     siddart_sir_checkbox.place(relx=0.5, rely=0.4, anchor="center")
 
-    # Right frame for additional content
     lefty_frame = CTkFrame(new_window, width=910, height=800, fg_color="black", corner_radius=10)
     lefty_frame.place(relx=0.4, rely=0.58, anchor="center")
 
-    con = sqlite3.connect("databaseexam.db")
-    cur = con.cursor()
-    con.close()
+    try:
+        con = sqlite3.connect("databaseexam.db")
+        cur = con.cursor()
+        con.close()
+    except Exception as e:
+        print(f"Error connecting to database: {e}")
 
-# Initialize the global tooltip variable
 tooltip = None
 
-# Example usage
 root = CTk()
 login_frame = CTkFrame(root)
 login(root, 'test_username', 'test_password', login_frame)
