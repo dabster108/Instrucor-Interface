@@ -1,5 +1,5 @@
 import sqlite3
-from customtkinter import CTk, CTkToplevel, CTkLabel, CTkImage, CTkButton, CTkCheckBox, CTkFrame
+from customtkinter import CTk, CTkToplevel, CTkLabel, CTkImage, CTkButton, CTkCheckBox, CTkFrame, CTkEntry
 from PIL import Image
 import tkinter as tk
 
@@ -120,6 +120,50 @@ def open_new_interface(user):
 
     lefty_frame = CTkFrame(new_window, width=910, height=800, fg_color="black", corner_radius=10)
     lefty_frame.place(relx=0.4, rely=0.58, anchor="center")
+
+    student_name_label = CTkLabel(lefty_frame, text="Student Name:", font=("Segoe UI", 16, "bold"), text_color="white")
+    student_name_label.place(relx=0.1, rely=0.1, anchor="w")
+
+    student_name_entry = CTkEntry(lefty_frame, width=350, height=40, corner_radius=10, placeholder_text="Enter Student Name", font=("Segoe UI", 16))
+    student_name_entry.place(relx=0.1, rely=0.15, anchor="w")
+
+    course_label = CTkLabel(lefty_frame, text="Course:", font=("Segoe UI", 16, "bold"), text_color="white")
+    course_label.place(relx=0.1, rely=0.25, anchor="w")
+
+    course_entry = CTkEntry(lefty_frame, width=350, height=40, corner_radius=10, placeholder_text="Enter Course", font=("Segoe UI", 16))
+    course_entry.place(relx=0.1, rely=0.3, anchor="w")
+
+    year_label = CTkLabel(lefty_frame, text="Year:", font=("Segoe UI", 16, "bold"), text_color="white")
+    year_label.place(relx=0.1, rely=0.4, anchor="w")
+
+    year_entry = CTkEntry(lefty_frame, width=350, height=40, corner_radius=10, placeholder_text="Enter Year", font=("Segoe UI", 16))
+    year_entry.place(relx=0.1, rely=0.45, anchor="w")
+
+    instructor_name_label = CTkLabel(lefty_frame, text="Instructor Name:", font=("Segoe UI", 16, "bold"), text_color="white")
+    instructor_name_label.place(relx=0.1, rely=0.55, anchor="w")
+
+    instructor_name_entry = CTkEntry(lefty_frame, width=350, height=40, corner_radius=10, placeholder_text="Enter Instructor Name", font=("Segoe UI", 16))
+    instructor_name_entry.place(relx=0.1, rely=0.6, anchor="w")
+
+    def add_student():
+        student_name = student_name_entry.get()
+        course = course_entry.get()
+        year = year_entry.get()
+        instructor_name = instructor_name_entry.get()
+        print(f"Adding student: {student_name}, Course: {course}, Year: {year}, Instructor: {instructor_name}")
+        # Add the student data to the database
+
+    def clear_all():
+        student_name_entry.delete(0, 'end')
+        course_entry.delete(0, 'end')
+        year_entry.delete(0, 'end')
+        instructor_name_entry.delete(0, 'end')
+
+    add_button = CTkButton(lefty_frame, text="Add Student", width=150, height=40, corner_radius=10, command=add_student)
+    add_button.place(relx=0.1, rely=0.7, anchor="w")
+
+    clear_button = CTkButton(lefty_frame, text="Clear All", width=150, height=40, corner_radius=10, command=clear_all)
+    clear_button.place(relx=0.3, rely=0.7, anchor="w")
 
     try:
         con = sqlite3.connect("databaseexam.db")
