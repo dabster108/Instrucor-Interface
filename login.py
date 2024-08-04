@@ -112,16 +112,16 @@ def open_new_interface(user):
     line_frame1 = CTkFrame(left_frame, height=2, fg_color="white")
     line_frame1.place(relx=0.5, rely=0.2, anchor="n", relwidth=1.0)
      
-    # Adding instructor names as labels
+    
     instructor_names = [
-        "1. Giri Raj Rawat",
-        "2. Manoj Shrestha",
-        "3. Siddhartha Neupane",
-        "4. Ayush Kaji Dangol"
+        "Giri Raj Rawat",
+        "Manoj Shrestha",
+        "Siddhartha Neupane",
+        "Ayush Kaji Dangol"
     ]
 
     for i, name in enumerate(instructor_names):
-        instructor_label = CTkLabel(left_frame, text=name, font=("Segoe UI", 16, "bold"), text_color="white")
+        instructor_label = CTkLabel(left_frame, text=f"{i + 1}. {name}", font=("Segoe UI", 16, "bold"), text_color="white")
         instructor_label.place(relx=0.5, rely=0.25 + i * 0.1, anchor="center")
 
     lefty_frame = CTkFrame(new_window, width=1020, height=800, fg_color="black", corner_radius=10)
@@ -153,6 +153,29 @@ def open_new_interface(user):
 
     instructor_name_combobox = CTkComboBox(lefty_frame, values=instructor_names, font=("Segoe UI", 16, "bold"), width=350, height=40, corner_radius=10)
     instructor_name_combobox.place(relx=0.1, rely=0.6, anchor="w")
+    
+    description_frame = CTkFrame(lefty_frame, width=480, height=350, fg_color="black", corner_radius=10)
+    description_frame.place(relx=0.75, rely=0.5, anchor="center")
+    
+    
+    description_label = CTkLabel(description_frame, text="", font=("Segoe UI", 14), text_color="white", wraplength=460)
+    description_label.place(relx=0.5, rely=0.5, anchor="center")
+
+    descriptions = {
+        "Giri Raj Rawat": "Giri Raj emphasizes conceptual understanding and theoretical knowledge. He often uses visual aids and diagrams to explain algorithms and their underlying principles.\n\nStudents appreciate Giri Raj's thorough explanations and the use of visuals, which make complex topics easier to grasp. His deep dives into theory help students appreciate the intricacies of programming.",
+        "Manoj Shrestha": "Manoj employs a hands-on approach to teaching. He focuses on practical applications of programming concepts and encourages students to engage in coding exercises during class.\n\nStudents love Manoj's interactive sessions and the real-world examples he provides. His emphasis on practice helps students gain confidence in their coding skills.",
+        "Siddhartha Neupane": "Siddhartha integrates a collaborative learning approach. He often organizes group discussions and projects to facilitate peer learning and knowledge sharing among students.\n\nStudents enjoy Siddhartha's collaborative style and the opportunity to learn from their peers. His approach fosters a supportive learning environment and enhances critical thinking.",
+        "Ayush Kaji Dangol": "Ayush focuses on innovation and creativity in programming. He encourages students to think outside the box and come up with unique solutions to problems.\n\nStudents admire Ayush's encouragement of creative problem-solving and his ability to inspire innovative thinking. His classes are engaging and push students to explore new ideas."
+    }
+    
+
+    def update_description(event):
+        instructor = instructor_name_combobox.get()
+        description = descriptions.get(instructor, "")
+        description_label.configure(text=description)
+
+    
+    instructor_name_combobox.bind("<<ComboboxSelected>>", update_description)
 
     def add_student():
         student_name = student_name_entry.get()
@@ -196,7 +219,7 @@ def main():
     login_button = CTkButton(login_frame, text="Login", width=150, height=40, command=lambda: login(root, username_entry.get(), password_entry.get(), login_frame))
     login_button.pack(pady=20)
 
-    root.mainloop()
+    root.mainloop() 
 
 if __name__ == "__main__":
     main()
