@@ -1,5 +1,5 @@
 import sqlite3
-from customtkinter import CTk, CTkToplevel, CTkLabel, CTkImage, CTkButton, CTkCheckBox, CTkFrame, CTkEntry
+from customtkinter import CTk, CTkToplevel, CTkLabel, CTkImage, CTkButton, CTkFrame, CTkEntry, CTkComboBox
 from PIL import Image
 import tkinter as tk
 
@@ -37,14 +37,14 @@ def open_new_interface(user):
     label.place(relx=0.5, rely=0.1, anchor="center")
 
     try:
-        logoin = CTkImage(dark_image=Image.open("D:\\Project Examasap\\Instrucor-Interface\\photo00.png"), size=(1920, 1080))
+        logoin = CTkImage(dark_image=Image.open("path_to_image/photo00.png"), size=(1920, 1080))
         logoin_right1 = CTkLabel(new_window, image=logoin, text="", fg_color="#333D79")
         logoin_right1.place(relx=0.5, rely=0.5, anchor="center")
     except Exception as e:
         print(f"Error loading background image: {e}")
 
     try:
-        icon = CTkImage(dark_image=Image.open("D:\\Project Examasap\\Instrucor-Interface\\Book-open_icon-icons.com_52251.ico"), size=(40, 40))
+        icon = CTkImage(dark_image=Image.open("path_to_image/Book-open_icon-icons.com_52251.ico"), size=(40, 40))
         icon_label = CTkLabel(new_window, image=icon, text="", fg_color="transparent")
         icon_label.place(relx=0.05, rely=0.1, anchor="n")
     except Exception as e:
@@ -111,14 +111,20 @@ def open_new_interface(user):
 
     line_frame1 = CTkFrame(left_frame, height=2, fg_color="white")
     line_frame1.place(relx=0.5, rely=0.2, anchor="n", relwidth=1.0)
+     
+    # Adding instructor names as labels
+    instructor_names = [
+        "1. Giri Raj Rawat",
+        "2. Manoj Shrestha",
+        "3. Siddhartha Neupane",
+        "4. Ayush Kaji Dangol"
+    ]
 
-    gir_sir_checkbox = CTkCheckBox(left_frame, text="Gir Sir", font=("Segoe UI", 16, "bold"), text_color="white", fg_color="#1a73e8")
-    gir_sir_checkbox.place(relx=0.5, rely=0.3, anchor="center")
+    for i, name in enumerate(instructor_names):
+        instructor_label = CTkLabel(left_frame, text=name, font=("Segoe UI", 16, "bold"), text_color="white")
+        instructor_label.place(relx=0.5, rely=0.25 + i * 0.1, anchor="center")
 
-    siddart_sir_checkbox = CTkCheckBox(left_frame, text="Siddart Sir", font=("Segoe UI", 16, "bold"), text_color="white", fg_color="#1a73e8")
-    siddart_sir_checkbox.place(relx=0.5, rely=0.4, anchor="center")
-
-    lefty_frame = CTkFrame(new_window, width=910, height=800, fg_color="black", corner_radius=10)
+    lefty_frame = CTkFrame(new_window, width=1020, height=800, fg_color="gray", corner_radius=10)
     lefty_frame.place(relx=0.4, rely=0.58, anchor="center")
 
     student_name_label = CTkLabel(lefty_frame, text="Student Name:", font=("Segoe UI", 16, "bold"), text_color="white")
@@ -142,39 +148,52 @@ def open_new_interface(user):
     instructor_name_label = CTkLabel(lefty_frame, text="Instructor Name:", font=("Segoe UI", 16, "bold"), text_color="white")
     instructor_name_label.place(relx=0.1, rely=0.55, anchor="w")
 
-    instructor_name_entry = CTkEntry(lefty_frame, width=350, height=40, corner_radius=10, placeholder_text="Enter Instructor Name", font=("Segoe UI", 16))
-    instructor_name_entry.place(relx=0.1, rely=0.6, anchor="w")
+    instructor_name_combobox = CTkComboBox(lefty_frame, values=instructor_names, font=("Segoe UI", 16, "bold"),width=350, height=40, corner_radius=10)
+    instructor_name_combobox.place(relx=0.1, rely=0.6, anchor="w")
 
     def add_student():
         student_name = student_name_entry.get()
         course = course_entry.get()
         year = year_entry.get()
-        instructor_name = instructor_name_entry.get()
+        instructor_name = instructor_name_combobox.get()
         print(f"Adding student: {student_name}, Course: {course}, Year: {year}, Instructor: {instructor_name}")
-        # Add the student data to the database
+
+    add_student_button = CTkButton(lefty_frame, text="Add Student", width=150, height=40, corner_radius=10, command=add_student)
+    add_student_button.place(relx=0.1, rely=0.7, anchor="w")
 
     def clear_all():
         student_name_entry.delete(0, 'end')
         course_entry.delete(0, 'end')
         year_entry.delete(0, 'end')
-        instructor_name_entry.delete(0, 'end')
-
-    add_button = CTkButton(lefty_frame, text="Add Student", width=150, height=40, corner_radius=10, command=add_student)
-    add_button.place(relx=0.1, rely=0.7, anchor="w")
+        instructor_name_combobox.set('')  # Reset ComboBox
 
     clear_button = CTkButton(lefty_frame, text="Clear All", width=150, height=40, corner_radius=10, command=clear_all)
     clear_button.place(relx=0.3, rely=0.7, anchor="w")
 
-    try:
-        con = sqlite3.connect("databaseexam.db")
-        cur = con.cursor()
-        con.close()
-    except Exception as e:
-        print(f"Error connecting to database: {e}")
+    new_window.mainloop()
 
-tooltip = None
+def main():
+    root = CTk()
+    login_frame = CTkFrame(root)
+    login_frame.pack(expand=True, fill='both')
 
-root = CTk()
-login_frame = CTkFrame(root)
-login(root, 'test_username', 'test_password', login_frame)
-root.mainloop()
+    # Example login UI
+    username_label = CTkLabel(login_frame, text="Username", font=("Segoe UI", 16))
+    username_label.pack(pady=10)
+    
+    username_entry = CTkEntry(login_frame, width=250, height=40, placeholder_text="Enter Username")
+    username_entry.pack(pady=5)
+
+    password_label = CTkLabel(login_frame, text="Password", font=("Segoe UI", 16))
+    password_label.pack(pady=10)
+    
+    password_entry = CTkEntry(login_frame, width=250, height=40, placeholder_text="Enter Password", show="*")
+    password_entry.pack(pady=5)
+
+    login_button = CTkButton(login_frame, text="Login", width=150, height=40, command=lambda: login(root, username_entry.get(), password_entry.get(), login_frame))
+    login_button.pack(pady=20)
+
+    root.mainloop()
+
+if __name__ == "__main__":
+    main()
