@@ -124,8 +124,11 @@ def open_new_interface(user):
         instructor_label = CTkLabel(left_frame, text=name, font=("Segoe UI", 16, "bold"), text_color="white")
         instructor_label.place(relx=0.5, rely=0.25 + i * 0.1, anchor="center")
 
-    lefty_frame = CTkFrame(new_window, width=1020, height=800, fg_color="gray", corner_radius=10)
+    lefty_frame = CTkFrame(new_window, width=1020, height=800, fg_color="black", corner_radius=10)
     lefty_frame.place(relx=0.4, rely=0.58, anchor="center")
+
+    vertical_line_in_lefty = CTkFrame(lefty_frame, width=2, fg_color="white")
+    vertical_line_in_lefty.place(relx=0.5, rely=0.1, anchor="nw", relheight=0.8)
 
     student_name_label = CTkLabel(lefty_frame, text="Student Name:", font=("Segoe UI", 16, "bold"), text_color="white")
     student_name_label.place(relx=0.1, rely=0.1, anchor="w")
@@ -148,7 +151,7 @@ def open_new_interface(user):
     instructor_name_label = CTkLabel(lefty_frame, text="Instructor Name:", font=("Segoe UI", 16, "bold"), text_color="white")
     instructor_name_label.place(relx=0.1, rely=0.55, anchor="w")
 
-    instructor_name_combobox = CTkComboBox(lefty_frame, values=instructor_names, font=("Segoe UI", 16, "bold"),width=350, height=40, corner_radius=10)
+    instructor_name_combobox = CTkComboBox(lefty_frame, values=instructor_names, font=("Segoe UI", 16, "bold"), width=350, height=40, corner_radius=10)
     instructor_name_combobox.place(relx=0.1, rely=0.6, anchor="w")
 
     def add_student():
