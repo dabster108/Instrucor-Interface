@@ -1,7 +1,42 @@
 import sqlite3
+from tkinter import messagebox
 from customtkinter import CTk, CTkToplevel, CTkLabel, CTkImage, CTkButton, CTkFrame, CTkEntry, CTkComboBox
 from PIL import Image
-import tkinter as tk
+
+# Function to create the student database and table
+def create_student_db():
+    try:
+        conn = sqlite3.connect('studentname.db')
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS students (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                student_name TEXT,
+                course TEXT,
+                year TEXT,
+                instructor_name TEXT
+            )
+        ''')
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(f"Error creating student database: {e}")
+
+def create_login_db():
+    try:
+        conn = sqlite3.connect('databaseexam.db')
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT UNIQUE,
+                password TEXT
+            )
+        ''')
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(f"Error creating login database: {e}")
 
 def login_user(username, password):
     try:
@@ -37,7 +72,7 @@ def open_new_interface(user):
     label.place(relx=0.5, rely=0.1, anchor="center")
 
     try:
-        logoin = CTkImage(dark_image=Image.open("path_to_image/photo00.png"), size=(1920, 1080))
+        logoin = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\photomain3.png"), size=(1920, 1080))
         logoin_right1 = CTkLabel(new_window, image=logoin, text="", fg_color="#333D79")
         logoin_right1.place(relx=0.5, rely=0.5, anchor="center")
     except Exception as e:
@@ -111,8 +146,7 @@ def open_new_interface(user):
 
     line_frame1 = CTkFrame(left_frame, height=2, fg_color="white")
     line_frame1.place(relx=0.5, rely=0.2, anchor="n", relwidth=1.0)
-     
-    
+
     instructor_names = [
         "Giri Raj Rawat",
         "Manoj Shrestha",
@@ -124,7 +158,8 @@ def open_new_interface(user):
         instructor_label = CTkLabel(left_frame, text=f"{i + 1}. {name}", font=("Segoe UI", 16, "bold"), text_color="white")
         instructor_label.place(relx=0.5, rely=0.25 + i * 0.1, anchor="center")
 
-    lefty_frame = CTkFrame(new_window, width=1020, height=800, fg_color="black", corner_radius=10)
+    # Ensure the lefty_frame can expand
+    lefty_frame = CTkFrame(new_window, width=1200, height=800, fg_color="black", corner_radius=10)
     lefty_frame.place(relx=0.4, rely=0.58, anchor="center")
 
     vertical_line_in_lefty = CTkFrame(lefty_frame, width=2, fg_color="white")
@@ -148,78 +183,85 @@ def open_new_interface(user):
     year_entry = CTkEntry(lefty_frame, width=350, height=40, corner_radius=10, placeholder_text="Enter Year", font=("Segoe UI", 16))
     year_entry.place(relx=0.1, rely=0.45, anchor="w")
 
-    instructor_name_label = CTkLabel(lefty_frame, text="Instructor Name:", font=("Segoe UI", 16, "bold"), text_color="white")
-    instructor_name_label.place(relx=0.1, rely=0.55, anchor="w")
+    instructor_label = CTkLabel(lefty_frame, text="Instructor Name:", font=("Segoe UI", 16, "bold"), text_color="white")
+    instructor_label.place(relx=0.1, rely=0.55, anchor="w")
 
-    instructor_name_combobox = CTkComboBox(lefty_frame, values=instructor_names, font=("Segoe UI", 16, "bold"), width=350, height=40, corner_radius=10)
-    instructor_name_combobox.place(relx=0.1, rely=0.6, anchor="w")
-    
-    description_frame = CTkFrame(lefty_frame, width=480, height=350, fg_color="black", corner_radius=10)
-    description_frame.place(relx=0.75, rely=0.5, anchor="center")
-    
-    
-    description_label = CTkLabel(description_frame, text="", font=("Segoe UI", 14), text_color="white", wraplength=460)
-    description_label.place(relx=0.5, rely=0.5, anchor="center")
+    instructor_combobox = CTkComboBox(lefty_frame, values=instructor_names, width=350, height=40, corner_radius=10, font=("Segoe UI", 16))
+    instructor_combobox.place(relx=0.1, rely=0.6, anchor="w")
 
-    descriptions = {
-        "Giri Raj Rawat": "Giri Raj emphasizes conceptual understanding and theoretical knowledge. He often uses visual aids and diagrams to explain algorithms and their underlying principles.\n\nStudents appreciate Giri Raj's thorough explanations and the use of visuals, which make complex topics easier to grasp. His deep dives into theory help students appreciate the intricacies of programming.",
-        "Manoj Shrestha": "Manoj employs a hands-on approach to teaching. He focuses on practical applications of programming concepts and encourages students to engage in coding exercises during class.\n\nStudents love Manoj's interactive sessions and the real-world examples he provides. His emphasis on practice helps students gain confidence in their coding skills.",
-        "Siddhartha Neupane": "Siddhartha integrates a collaborative learning approach. He often organizes group discussions and projects to facilitate peer learning and knowledge sharing among students.\n\nStudents enjoy Siddhartha's collaborative style and the opportunity to learn from their peers. His approach fosters a supportive learning environment and enhances critical thinking.",
-        "Ayush Kaji Dangol": "Ayush focuses on innovation and creativity in programming. He encourages students to think outside the box and come up with unique solutions to problems.\n\nStudents admire Ayush's encouragement of creative problem-solving and his ability to inspire innovative thinking. His classes are engaging and push students to explore new ideas."
-    }
-    
-
-    def update_description(event):
-        instructor = instructor_name_combobox.get()
-        description = descriptions.get(instructor, "")
-        description_label.configure(text=description)
-
-    
-    instructor_name_combobox.bind("<<ComboboxSelected>>", update_description)
-
-    def add_student():
+    def add_data():
         student_name = student_name_entry.get()
         course = course_entry.get()
         year = year_entry.get()
-        instructor_name = instructor_name_combobox.get()
-        print(f"Adding student: {student_name}, Course: {course}, Year: {year}, Instructor: {instructor_name}")
+        instructor_name = instructor_combobox.get()
 
-    add_student_button = CTkButton(lefty_frame, text="Add Student", width=150, height=40, corner_radius=10, command=add_student)
-    add_student_button.place(relx=0.1, rely=0.7, anchor="w")
+        if not (student_name and course and year and instructor_name):
+            messagebox.showwarning("Input Error", "All fields are required")
+            return
 
-    def clear_all():
-        student_name_entry.delete(0, 'end')
-        course_entry.delete(0, 'end')
-        year_entry.delete(0, 'end')
-        instructor_name_combobox.set('')  # Reset ComboBox
+        try:
+            conn = sqlite3.connect('studentname.db')
+            cursor = conn.cursor()
+            cursor.execute('''
+                INSERT INTO students (student_name, course, year, instructor_name)
+                VALUES (?, ?, ?, ?)
+            ''', (student_name, course, year, instructor_name))
+            conn.commit()
+            conn.close()
 
-    clear_button = CTkButton(lefty_frame, text="Clear All", width=150, height=40, corner_radius=10, command=clear_all)
-    clear_button.place(relx=0.3, rely=0.7, anchor="w")
+            messagebox.showinfo("Success", "Data added successfully")
+            update_display(student_name, course, year, instructor_name)
+        except Exception as e:
+            print(f"Error adding data to student database: {e}")
+            messagebox.showerror("Database Error", "Failed to add data")
 
-    new_window.mainloop()
+    add_button = CTkButton(lefty_frame, text="Add", command=add_data, width=150, height=40, corner_radius=10)
+    add_button.place(relx=0.1, rely=0.75, anchor="w")
 
-def main():
-    root = CTk()
-    login_frame = CTkFrame(root)
-    login_frame.pack(expand=True, fill='both')
+    # Frame to display the added student data
+    display_frame = CTkFrame(lefty_frame, fg_color="gray20", corner_radius=10)
+    display_frame.place(relx=0.75, rely=0.4, anchor="center", relwidth=0.35, relheight=0.4)
 
-    # Example login UI
-    username_label = CTkLabel(login_frame, text="Username", font=("Segoe UI", 16))
-    username_label.pack(pady=10)
-    
-    username_entry = CTkEntry(login_frame, width=250, height=40, placeholder_text="Enter Username")
-    username_entry.pack(pady=5)
+    def update_display(student_name, course, year, instructor_name):
+        for widget in display_frame.winfo_children():
+            widget.destroy()
 
-    password_label = CTkLabel(login_frame, text="Password", font=("Segoe UI", 16))
-    password_label.pack(pady=10)
-    
-    password_entry = CTkEntry(login_frame, width=250, height=40, placeholder_text="Enter Password", show="*")
-    password_entry.pack(pady=5)
+        CTkLabel(display_frame, text="Student Name:", font=("Segoe UI", 16, "bold"), text_color="white").pack(anchor="w", padx=10, pady=5)
+        CTkLabel(display_frame, text=student_name, font=("Segoe UI", 16), text_color="white").pack(anchor="w", padx=10)
 
-    login_button = CTkButton(login_frame, text="Login", width=150, height=40, command=lambda: login(root, username_entry.get(), password_entry.get(), login_frame))
-    login_button.pack(pady=20)
+        CTkLabel(display_frame, text="Course:", font=("Segoe UI", 16, "bold"), text_color="white").pack(anchor="w", padx=10, pady=5)
+        CTkLabel(display_frame, text=course, font=("Segoe UI", 16), text_color="white").pack(anchor="w", padx=10)
 
-    root.mainloop() 
+        CTkLabel(display_frame, text="Year:", font=("Segoe UI", 16, "bold"), text_color="white").pack(anchor="w", padx=10, pady=5)
+        CTkLabel(display_frame, text=year, font=("Segoe UI", 16), text_color="white").pack(anchor="w", padx=10)
 
-if __name__ == "__main__":
-    main()
+        CTkLabel(display_frame, text="Instructor Name:", font=("Segoe UI", 16, "bold"), text_color="white").pack(anchor="w", padx=10, pady=5)
+        CTkLabel(display_frame, text=instructor_name, font=("Segoe UI", 16), text_color="white").pack(anchor="w", padx=10)
+
+    # Initialize with no data
+    update_display("", "", "", "")
+
+# Initialize the main window
+root = CTk()
+root.title("Login")
+root.geometry("600x400")
+
+frame = CTkFrame(root)
+frame.pack(expand=True, fill='both')
+
+create_login_db()  # Create login database if it doesn't exist
+create_student_db()  # Create student database if it doesn't exist
+
+welcome_label = CTkLabel(frame, text="Welcome! Please login.", font=("Segoe UI", 20, "bold"))
+welcome_label.place(relx=0.5, rely=0.2, anchor="center")
+
+username_entry = CTkEntry(frame, width=300, height=40, placeholder_text="Username", font=("Segoe UI", 16))
+username_entry.place(relx=0.5, rely=0.35, anchor="center")
+
+password_entry = CTkEntry(frame, width=300, height=40, placeholder_text="Password", show="*", font=("Segoe UI", 16))
+password_entry.place(relx=0.5, rely=0.45, anchor="center")
+
+login_button = CTkButton(frame, text="Login", command=lambda: login(root, username_entry.get(), password_entry.get(), frame), width=150, height=40, corner_radius=10)
+login_button.place(relx=0.5, rely=0.55, anchor="center")
+
+root.mainloop()
