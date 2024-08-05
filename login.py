@@ -72,7 +72,7 @@ def open_new_interface(user):
     label.place(relx=0.5, rely=0.1, anchor="center")
 
     try:
-        logoin = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\photomain3.png"), size=(1920, 1080))
+        logoin = CTkImage(dark_image=Image.open(""), size=(1920, 1080))
         logoin_right1 = CTkLabel(new_window, image=logoin, text="", fg_color="#333D79")
         logoin_right1.place(relx=0.5, rely=0.5, anchor="center")
     except Exception as e:
@@ -136,11 +136,16 @@ def open_new_interface(user):
     line_frame.place(relx=0.5, rely=0.16, anchor="center", relwidth=1.0)
 
     vertical_line = CTkFrame(new_window, width=2, fg_color="white")
-    vertical_line.place(relx=0.75, rely=0.16, anchor="n", relheight=0.84)
+    vertical_line.place(relx=0.65, rely=0.16, anchor="n", relheight=0.84)
 
     left_frame = CTkFrame(new_window, width=400, height=750, fg_color="black", corner_radius=10)
     left_frame.place(relx=0.88, rely=0.58, anchor="center")
-
+  
+    lefty_frame = CTkFrame(new_window, width=1200, height=800, corner_radius=10)
+    lefty_frame.place(relx=0.4, rely=0.58, anchor="center")
+    
+   
+    
     instructorname_label = CTkLabel(left_frame, text="Instructors Available", font=("Segoe UI", 20, "bold"), text_color="white")
     instructorname_label.place(relx=0.5, rely=0.1, anchor="center")
 
@@ -158,9 +163,9 @@ def open_new_interface(user):
         instructor_label = CTkLabel(left_frame, text=f"{i + 1}. {name}", font=("Segoe UI", 16, "bold"), text_color="white")
         instructor_label.place(relx=0.5, rely=0.25 + i * 0.1, anchor="center")
 
-    # Ensure the lefty_frame can expand
-    lefty_frame = CTkFrame(new_window, width=1200, height=800, fg_color="black", corner_radius=10)
-    lefty_frame.place(relx=0.4, rely=0.58, anchor="center")
+ 
+    
+
 
     vertical_line_in_lefty = CTkFrame(lefty_frame, width=2, fg_color="white")
     vertical_line_in_lefty.place(relx=0.5, rely=0.1, anchor="nw", relheight=0.8)
@@ -220,7 +225,16 @@ def open_new_interface(user):
 
     # Frame to display the added student data
     display_frame = CTkFrame(lefty_frame, fg_color="gray20", corner_radius=10)
-    display_frame.place(relx=0.75, rely=0.4, anchor="center", relwidth=0.35, relheight=0.4)
+    display_frame.place(relx=0.75, rely=0.3, anchor="center", relwidth=0.35, relheight=0.4)
+    
+    description_frame = CTkFrame(lefty_frame, fg_color="gray20", corner_radius=10)
+    description_frame.place(relx=0.75, rely=0.75, anchor="center", relwidth=0.35, relheight=0.4)
+    
+    line_frame2 = CTkFrame(description_frame, height=2, fg_color="white")
+    line_frame2.place(relx=0.5, rely=0.2, anchor="n", relwidth=1.0)
+    
+    instructordescription_label = CTkLabel(description_frame, text="Instructor Description", font=("Segoe UI", 20, "bold"), text_color="white")
+    instructordescription_label.place(relx=0.5, rely=0.1, anchor="center")
 
     def update_display(student_name, course, year, instructor_name):
         for widget in display_frame.winfo_children():
@@ -264,4 +278,4 @@ password_entry.place(relx=0.5, rely=0.45, anchor="center")
 login_button = CTkButton(frame, text="Login", command=lambda: login(root, username_entry.get(), password_entry.get(), frame), width=150, height=40, corner_radius=10)
 login_button.place(relx=0.5, rely=0.55, anchor="center")
 
-root.mainloop()
+root.mainloop() ##?
