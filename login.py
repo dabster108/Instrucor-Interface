@@ -29,6 +29,8 @@ def create_login_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                fullname TEXT,
+                email TEXT,
                 username TEXT UNIQUE,
                 password TEXT
             )
@@ -37,6 +39,21 @@ def create_login_db():
         conn.close()
     except Exception as e:
         print(f"Error creating login database: {e}")
+
+def register_user(fullname, email, username, password):
+    try:
+        conn = sqlite3.connect('databaseexam.db')
+        cursor = conn.cursor()
+        cursor.execute('INSERT INTO users (fullname, email, username, password) VALUES (?, ?, ?, ?)', (fullname, email, username, password))
+        conn.commit()
+        conn.close()
+        messagebox.showinfo("Success", "Registration successful.")
+    except sqlite3.IntegrityError as e:
+        print(f"Error: {e}")
+        if "UNIQUE constraint failed: users.username" in str(e):
+            messagebox.showerror("Error", "Username already exists.")
+        else:
+            messagebox.showerror("Error", "An error occurred during registration.")
 
 def login_user(username, password):
     try:
@@ -56,7 +73,6 @@ def login(root, username, password, frame):
             widget.destroy()
     user = login_user(username, password)
     if user:
-        print("Login successful")
         root.destroy()
         open_new_interface(user)
     else:
@@ -65,12 +81,10 @@ def login(root, username, password, frame):
 
 def open_new_interface(user):
     new_window = CTkToplevel()
-    new_window.title("New Interface")
+    new_window.title("Student Management Interface")
     new_window.state('zoomed')
 
-    label = CTkLabel(new_window, text="Welcome to the new interface!", font=("Segoe UI", 20, "bold"))
-    label.place(relx=0.5, rely=0.1, anchor="center")
-
+    # Background image
     try:
         logoin = CTkImage(dark_image=Image.open("INSTRUCTOR/Instrucor-Interface/photomain9.png"), size=(1920, 1080))
         logoin_right1 = CTkLabel(new_window, image=logoin, text="", fg_color="#333D79")
@@ -78,6 +92,7 @@ def open_new_interface(user):
     except Exception as e:
         print(f"Error loading background image: {e}")
 
+    # Icon image
     try:
         icon = CTkImage(dark_image=Image.open("path_to_image/Book-open_icon-icons.com_52251.ico"), size=(40, 40))
         icon_label = CTkLabel(new_window, image=icon, text="", fg_color="transparent")
@@ -85,6 +100,7 @@ def open_new_interface(user):
     except Exception as e:
         print(f"Error loading icon image: {e}")
 
+    # Buttons
     button_frame = CTkFrame(new_window, fg_color="transparent")
     button_frame.place(relx=0.9, rely=0.1, anchor="ne")
 
@@ -114,7 +130,7 @@ def open_new_interface(user):
         show_tooltip(event, text, 200, 50)
 
     def show_profile_tooltip(event):
-        text = f"Username: {user[1]}\nEmail: {user[2]}"
+        text = f"Username: {user[2]}\nEmail: {user[1]}"
         show_tooltip(event, text, 300, 100)
 
     description_button = CTkButton(button_frame, text="Description", width=120, height=40, corner_radius=10)
