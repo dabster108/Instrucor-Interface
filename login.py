@@ -1,4 +1,3 @@
-
 import sqlite3
 from tkinter import messagebox
 from customtkinter import CTk, CTkToplevel, CTkLabel, CTkImage, CTkButton, CTkFrame, CTkEntry, CTkComboBox
@@ -157,15 +156,13 @@ def open_new_interface(user):
 
     lefty_frame = CTkFrame(new_window, width=1200, height=800, corner_radius=10)
     lefty_frame.place(relx=0.4, rely=0.58, anchor="center")
-    
-    
+
     try:
         lefty_bg_image = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\coversss.png"), size=(1200, 800))
         lefty_bg_label = CTkLabel(lefty_frame, image=lefty_bg_image, text="", fg_color="transparent")
         lefty_bg_label.place(relx=0.5, rely=0.5, anchor="center")
     except Exception as e:
         print(f"Error loading lefty_frame background image: {e}")
-        
 
     student_name_label = CTkLabel(lefty_frame, text="Student Name:", font=("Segoe UI", 16, "bold"), text_color="white")
     student_name_label.place(relx=0.1, rely=0.1, anchor="w")
@@ -224,18 +221,40 @@ def open_new_interface(user):
             print(f"Error adding data to student database: {e}")
             messagebox.showerror("Database Error", "Failed to add data")
 
+    def delete_data():
+        student_name = student_name_entry.get()
+        course = course_entry.get()
+        year = year_entry.get()
+        instructor_name = instructor_combobox.get()
+
+        if not (student_name or course or year or instructor_name):
+            messagebox.showwarning("Input Error", "At least one field is required to delete data")
+            return
+
+        try:
+            conn = sqlite3.connect('studentname.db')
+            cursor = conn.cursor()
+            cursor.execute('''
+                DELETE FROM students WHERE student_name = ? OR course = ? OR year = ? OR instructor_name = ?
+            ''', (student_name, course, year, instructor_name))
+            conn.commit()
+            conn.close()
+
+            messagebox.showinfo("Success", "Data deleted successfully")
+            update_display("", "", "", "")
+        except Exception as e:
+            print(f"Error deleting data from student database: {e}")
+            messagebox.showerror("Database Error", "Failed to delete data")
+
     add_button = CTkButton(lefty_frame, text="Add", command=add_data, width=150, height=40, corner_radius=10)
     add_button.place(relx=0.1, rely=0.75, anchor="w")
+
+    delete_button = CTkButton(lefty_frame, text="Delete", command=delete_data, width=150, height=40, corner_radius=10)
+    delete_button.place(relx=0.3, rely=0.75, anchor="w")
 
     # Frame to display the added student data
     display_frame = CTkFrame(lefty_frame, fg_color="gray20", corner_radius=10)
     display_frame.place(relx=0.75, rely=0.3, anchor="center", relwidth=0.35, relheight=0.4)
-
-    
-    
-    
-    # instructordescription_label = CTkLabel(description_frame, text="Instructor Description", font=("Segoe UI", 20, "bold"), text_color="white")
-    # instructordescription_label.place(relx=0.5, rely=0.1, anchor="center")
 
     def update_display(student_name, course, year, instructor_name):
         for widget in display_frame.winfo_children():
