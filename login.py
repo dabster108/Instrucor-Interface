@@ -1,3 +1,4 @@
+
 import sqlite3
 from tkinter import messagebox
 from customtkinter import CTk, CTkToplevel, CTkLabel, CTkImage, CTkButton, CTkFrame, CTkEntry, CTkComboBox
@@ -156,6 +157,15 @@ def open_new_interface(user):
 
     lefty_frame = CTkFrame(new_window, width=1200, height=800, corner_radius=10)
     lefty_frame.place(relx=0.4, rely=0.58, anchor="center")
+    
+    
+    try:
+        lefty_bg_image = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\coversss.png"), size=(1200, 800))
+        lefty_bg_label = CTkLabel(lefty_frame, image=lefty_bg_image, text="", fg_color="transparent")
+        lefty_bg_label.place(relx=0.5, rely=0.5, anchor="center")
+    except Exception as e:
+        print(f"Error loading lefty_frame background image: {e}")
+        
 
     student_name_label = CTkLabel(lefty_frame, text="Student Name:", font=("Segoe UI", 16, "bold"), text_color="white")
     student_name_label.place(relx=0.1, rely=0.1, anchor="w")
@@ -220,15 +230,12 @@ def open_new_interface(user):
     # Frame to display the added student data
     display_frame = CTkFrame(lefty_frame, fg_color="gray20", corner_radius=10)
     display_frame.place(relx=0.75, rely=0.3, anchor="center", relwidth=0.35, relheight=0.4)
+
     
-    description_frame = CTkFrame(lefty_frame, fg_color="gray20", corner_radius=10)
-    description_frame.place(relx=0.75, rely=0.75, anchor="center", relwidth=0.35, relheight=0.4)
     
-    line_frame2 = CTkFrame(description_frame, height=2, fg_color="white")
-    line_frame2.place(relx=0.5, rely=0.2, anchor="n", relwidth=1.0)
     
-    instructordescription_label = CTkLabel(description_frame, text="Instructor Description", font=("Segoe UI", 20, "bold"), text_color="white")
-    instructordescription_label.place(relx=0.5, rely=0.1, anchor="center")
+    # instructordescription_label = CTkLabel(description_frame, text="Instructor Description", font=("Segoe UI", 20, "bold"), text_color="white")
+    # instructordescription_label.place(relx=0.5, rely=0.1, anchor="center")
 
     def update_display(student_name, course, year, instructor_name):
         for widget in display_frame.winfo_children():
