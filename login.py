@@ -246,11 +246,41 @@ def open_new_interface(user):
             print(f"Error deleting data from student database: {e}")
             messagebox.showerror("Database Error", "Failed to delete data")
 
+    def edit_data():
+        student_name = student_name_entry.get()
+        course = course_entry.get()
+        year = year_entry.get()
+        instructor_name = instructor_combobox.get()
+
+        if not (student_name and course and year and instructor_name):
+            messagebox.showwarning("Input Error", "All fields are required to update data")
+            return
+
+        try:
+            conn = sqlite3.connect('studentname.db')
+            cursor = conn.cursor()
+            cursor.execute('''
+                UPDATE students
+                SET student_name = ?, course = ?, year = ?, instructor_name = ?
+                WHERE student_name = ? AND course = ? AND year = ? AND instructor_name = ?
+            ''', (student_name, course, year, instructor_name, student_name, course, year, instructor_name))
+            conn.commit()
+            conn.close()
+
+            messagebox.showinfo("Success", "Data updated successfully")
+            update_display(student_name, course, year, instructor_name)
+        except Exception as e:
+            print(f"Error updating data in student database: {e}")
+            messagebox.showerror("Database Error", "Failed to update data")
+
     add_button = CTkButton(lefty_frame, text="Add", command=add_data, width=150, height=40, corner_radius=10)
     add_button.place(relx=0.1, rely=0.75, anchor="w")
 
     delete_button = CTkButton(lefty_frame, text="Delete", command=delete_data, width=150, height=40, corner_radius=10)
     delete_button.place(relx=0.3, rely=0.75, anchor="w")
+
+    edit_button = CTkButton(lefty_frame, text="Edit", command=edit_data, width=150, height=40, corner_radius=10, fg_color="yellow")
+    edit_button.place(relx=0.5, rely=0.75, anchor="w")
 
     # Frame to display the added student data
     display_frame = CTkFrame(lefty_frame, fg_color="gray20", corner_radius=10)
