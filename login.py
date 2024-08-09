@@ -2,6 +2,8 @@ import sqlite3
 from tkinter import messagebox
 from customtkinter import CTk, CTkToplevel, CTkLabel, CTkImage, CTkButton, CTkFrame, CTkEntry, CTkComboBox
 from PIL import Image
+import webbrowser
+
 
 # Function to create the student database and table
 def create_student_db():
@@ -81,33 +83,27 @@ def login(root, username, password, frame):
 
 def open_new_interface(user):
     new_window = CTkToplevel()
-    new_window.title("Student Management Interface")
+    new_window.title("Instructor Management Interface")
     new_window.state('zoomed')
+    new_window.iconbitmap("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\profile.ico")
 
     # Background image
     try:
-        logoin = CTkImage(dark_image=Image.open("INSTRUCTOR/Instrucor-Interface/photomain9.png"), size=(1920, 1080))
-        logoin_right1 = CTkLabel(new_window, image=logoin, text="", fg_color="#333D79")
+        logoin = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\Cover (3).png"), size=(1920, 1080))
+        logoin_right1 = CTkLabel(new_window, image=logoin, text="")
         logoin_right1.place(relx=0.5, rely=0.5, anchor="center")
     except Exception as e:
         print(f"Error loading background image: {e}")
 
     # Icon image
-    try:
-        icon = CTkImage(dark_image=Image.open("path_to_image/Book-open_icon-icons.com_52251.ico"), size=(40, 40))
-        icon_label = CTkLabel(new_window, image=icon, text="", fg_color="transparent")
-        icon_label.place(relx=0.05, rely=0.1, anchor="n")
-    except Exception as e:
-        print(f"Error loading icon image: {e}")
+    # try:
+    #     icon = CTkImage(dark_image=Image.open("path_to_image/Book-open_icon-icons.com_52251.ico"), size=(40, 40))
+    #     icon_label = CTkLabel(new_window, image=icon, text="", fg_color="transparent")
+    #     icon_label.place(relx=0.05, rely=0.1, anchor="n")
+    # except Exception as e:
+    #     print(f"Error loading icon image: {e}")
 
-    # Buttons
-    button_frame = CTkFrame(new_window, fg_color="transparent")
-    button_frame.place(relx=0.9, rely=0.1, anchor="ne")
-
-    def show_tooltip(event, text, width, height):
-        global tooltip
-        tooltip = CTkLabel(new_window, text=text, font=("Segoe UI", 12), fg_color="black", text_color="white", width=width, height=height, corner_radius=10, wraplength=width - 20)
-        tooltip.place(x=event.x_root + 10, y=event.y_root, anchor="nw")
+    
 
     def hide_tooltip(event):
         global tooltip
@@ -115,54 +111,53 @@ def open_new_interface(user):
             tooltip.destroy()
             tooltip = None
 
-    def show_description_tooltip(event):
+    def show_description():
         text = ("The Instructor App is a project developed by the talented students of AI Softwarica College. "
-                "This innovative interface is designed to connect students with the college's most brilliant teachers, "
-                "offering an interactive platform for personalized learning experiences.\n\n"
-                "The app features a user-friendly interface built using Tkinter, where students can log in and manage their instructors. "
-                "Students have the flexibility to add instructors of their choice, remove them as needed, or update instructor details, "
-                "ensuring a dynamic and customized educational journey. The app supports full CRUD (Create, Read, Update, Delete) operations, "
-                "making it a comprehensive tool for managing instructor-student interactions.")
-        show_tooltip(event, text, 500, 200)
+            "This innovative interface is designed to connect students with the college's most brilliant teachers, "
+            "offering an interactive platform for personalized learning experiences.\n\n"
+            "The app features a user-friendly interface built using Tkinter, where students can log in and manage their instructors. "
+            "Students have the flexibility to add instructors of their choice, remove them as needed, or update instructor details, "
+            "ensuring a dynamic and customized educational journey. The app supports full CRUD (Create, Read, Update, Delete) operations, "
+            "making it a comprehensive tool for managing instructor-student interactions.")
+        messagebox.showinfo("Description", text,parent = new_window)
 
-    def show_contact_tooltip(event):
-        text = "Contact: 9843410777"
-        show_tooltip(event, text, 200, 50)
+    def show_contact():
+        text = "Contact: 3108dikshanta@gmail\nNumber: 9843410777"
+        messagebox.showinfo("Contact", text,parent = new_window)
 
-    def show_profile_tooltip(event):
-        text = f"Username: {user[2]}\nEmail: {user[1]}"
-        show_tooltip(event, text, 300, 100)
+    description_button = CTkButton(new_window, text="Description", width=150, height=48, corner_radius=10, fg_color="Yellow", text_color="black", command=show_description)
+    description_button.place(relx=0.7, rely=0.1, anchor="nw")
 
-    description_button = CTkButton(button_frame, text="Description", width=120, height=40, corner_radius=10)
-    description_button.pack(side='left', padx=5)
-    description_button.bind("<Enter>", show_description_tooltip)
-    description_button.bind("<Leave>", hide_tooltip)
+    contact_button = CTkButton(new_window, text="Contact", width=150, height=48, corner_radius=10, fg_color="Yellow", text_color="black", command=show_contact)
+    contact_button.place(relx=0.8, rely=0.1, anchor="nw")
 
-    contact_button = CTkButton(button_frame, text="Contact", width=120, height=40, corner_radius=10)
-    contact_button.pack(side='left', padx=5)
-    contact_button.bind("<Enter>", show_contact_tooltip)
-    contact_button.bind("<Leave>", hide_tooltip)
+    
+    
+    try:
+        profile_icon = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\profile.ico"), size=(40, 40))
+    except Exception as e:
+        print(f"Error loading profile icon image: {e}")
+        profile_icon = None  # Fallback in case the icon can't be loaded
 
-    profile_button = CTkButton(button_frame, text="Profile", width=120, height=40, corner_radius=10)
-    profile_button.pack(side='left', padx=5)
-    profile_button.bind("<Enter>", show_profile_tooltip)
-    profile_button.bind("<Leave>", hide_tooltip)
+    # Profile button
+    username = user[3]  # Assuming the username is the fourth element in the user tuple
+    profile_button = CTkButton(new_window, text=username, image=profile_icon, compound="left", width=150, height=40, corner_radius=10, fg_color="Yellow", text_color="black")
+    profile_button.place(relx=0.9, rely=0.1, anchor="nw")
 
-    line_frame = CTkFrame(new_window, height=2, fg_color="white")
-    line_frame.place(relx=0.5, rely=0.16, anchor="center", relwidth=1.0)
 
-    vertical_line = CTkFrame(new_window, width=2, fg_color="white")
-    vertical_line.place(relx=0.65, rely=0.16, anchor="n", relheight=0.84)
 
-    lefty_frame = CTkFrame(new_window, width=1200, height=800, corner_radius=10)
+    
+
+
+    lefty_frame = CTkFrame(new_window, width=1200, height=800, corner_radius=10,fg_color="black")
     lefty_frame.place(relx=0.4, rely=0.58, anchor="center")
 
-    try:
-        lefty_bg_image = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\coversss.png"), size=(1200, 800))
-        lefty_bg_label = CTkLabel(lefty_frame, image=lefty_bg_image, text="", fg_color="transparent")
-        lefty_bg_label.place(relx=0.5, rely=0.5, anchor="center")
-    except Exception as e:
-        print(f"Error loading lefty_frame background image: {e}")
+    # try:
+    #     lefty_bg_image = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\coversss.png"), size=(1200, 800))
+    #     lefty_bg_label = CTkLabel(lefty_frame, image=lefty_bg_image, text="", fg_color="transparent")
+    #     lefty_bg_label.place(relx=0.5, rely=0.5, anchor="center")
+    # except Exception as e:
+    #     print(f"Error loading lefty_frame background image: {e}")
 
     student_name_label = CTkLabel(lefty_frame, text="Student Name:", font=("Segoe UI", 16, "bold"), text_color="white")
     student_name_label.place(relx=0.1, rely=0.1, anchor="w")
@@ -194,6 +189,32 @@ def open_new_interface(user):
 
     instructor_combobox = CTkComboBox(lefty_frame, values=instructor_names, width=350, height=40, corner_radius=10, font=("Segoe UI", 16))
     instructor_combobox.place(relx=0.1, rely=0.6, anchor="w")
+    
+    
+    right_frame = CTkFrame(new_window, width=480, height=750, corner_radius=10,fg_color="gray")
+    right_frame.place(relx=0.86, rely=0.58, anchor="center")
+    
+    resources_label = CTkLabel(right_frame, text="Resources", font=("Segoe UI", 20, "bold"), text_color="white")
+    resources_label.place(relx=0.5, rely=0.1, anchor="center")
+
+# Function to open URLs
+    def open_resource(url):
+        webbrowser.open(url)
+
+    # Buttons for Resources
+    resource1_button = CTkButton(right_frame, text="Resource 1", width=200, height=50, corner_radius=10, command=lambda: open_resource("https://www.ibm.com/topics/artificial-intelligence"))
+    resource1_button.place(relx=0.5, rely=0.25, anchor="center")
+
+    resource2_button = CTkButton(right_frame, text="Resource 2", width=200, height=50, corner_radius=10, command=lambda: open_resource("https://www.coursera.org/articles/what-is-programming"))
+    resource2_button.place(relx=0.5, rely=0.35, anchor="center")
+
+    resource3_button = CTkButton(right_frame, text="Resource 3", width=200, height=50, corner_radius=10, command=lambda: open_resource("https://www.khanacademy.org/computing/computer-programming"))
+    resource3_button.place(relx=0.5, rely=0.45, anchor="center")
+
+    resource4_button = CTkButton(right_frame, text="Resource 4", width=200, height=50, corner_radius=10, command=lambda: open_resource("https://www.edx.org/course/introduction-to-computer-science-and-programming"))
+    resource4_button.place(relx=0.5, rely=0.55, anchor="center")
+        
+    
 
     def add_data():
         student_name = student_name_entry.get()
@@ -202,7 +223,7 @@ def open_new_interface(user):
         instructor_name = instructor_combobox.get()
 
         if not (student_name and course and year and instructor_name):
-            messagebox.showwarning("Input Error", "All fields are required")
+            messagebox.showwarning("Input Error", "All fields are required",parent = new_window)
             return
 
         try:
@@ -215,11 +236,11 @@ def open_new_interface(user):
             conn.commit()
             conn.close()
 
-            messagebox.showinfo("Success", "Data added successfully")
+            messagebox.showinfo("Success", "Data added successfully",parent = new_window)
             update_display(student_name, course, year, instructor_name)
         except Exception as e:
             print(f"Error adding data to student database: {e}")
-            messagebox.showerror("Database Error", "Failed to add data")
+            messagebox.showerror("Database Error", "Failed to add data",parent = new_window)
 
     def delete_data():
         student_name = student_name_entry.get()
@@ -228,7 +249,7 @@ def open_new_interface(user):
         instructor_name = instructor_combobox.get()
 
         if not (student_name or course or year or instructor_name):
-            messagebox.showwarning("Input Error", "At least one field is required to delete data")
+            messagebox.showwarning("Input Error", "At least one field is required to delete data",parent = new_window)
             return
 
         try:
@@ -240,11 +261,11 @@ def open_new_interface(user):
             conn.commit()
             conn.close()
 
-            messagebox.showinfo("Success", "Data deleted successfully")
+            messagebox.showinfo("Success", "Data deleted successfully",parent = new_window)
             update_display("", "", "", "")
         except Exception as e:
             print(f"Error deleting data from student database: {e}")
-            messagebox.showerror("Database Error", "Failed to delete data")
+            messagebox.showerror("Database Error", "Failed to delete data",parent=new_window)
 
     def edit_data():
         student_name = student_name_entry.get()
@@ -253,7 +274,7 @@ def open_new_interface(user):
         instructor_name = instructor_combobox.get()
 
         if not (student_name and course and year and instructor_name):
-            messagebox.showwarning("Input Error", "All fields are required to update data")
+            messagebox.showwarning("Input Error", "All fields are required to update data",parent = new_window)
             return
 
         try:
@@ -277,10 +298,10 @@ def open_new_interface(user):
     add_button.place(relx=0.1, rely=0.75, anchor="w")
 
     delete_button = CTkButton(lefty_frame, text="Delete", command=delete_data, width=150, height=40, corner_radius=10)
-    delete_button.place(relx=0.3, rely=0.75, anchor="w")
+    delete_button.place(relx=0.2, rely=0.75, anchor="w")
 
-    edit_button = CTkButton(lefty_frame, text="Edit", command=edit_data, width=150, height=40, corner_radius=10, fg_color="yellow")
-    edit_button.place(relx=0.5, rely=0.75, anchor="w")
+    edit_button = CTkButton(lefty_frame, text="Edit", command=edit_data, width=150, height=40, corner_radius=10, fg_color="blue")
+    edit_button.place(relx=0.4, rely=0.75, anchor="w")
 
     # Frame to display the added student data
     display_frame = CTkFrame(lefty_frame, fg_color="gray20", corner_radius=10)
@@ -304,28 +325,3 @@ def open_new_interface(user):
 
     # Initialize with no data
     update_display("", "", "", "")
-
-# Initialize the main window
-root = CTk()
-root.title("Login")
-root.geometry("600x400")
-
-frame = CTkFrame(root)
-frame.pack(expand=True, fill='both')
-
-create_login_db()  # Create login database if it doesn't exist
-create_student_db()  # Create student database if it doesn't exist
-
-welcome_label = CTkLabel(frame, text="Welcome! Please login.", font=("Segoe UI", 20, "bold"))
-welcome_label.place(relx=0.5, rely=0.2, anchor="center")
-
-username_entry = CTkEntry(frame, width=300, height=40, placeholder_text="Username", font=("Segoe UI", 16))
-username_entry.place(relx=0.5, rely=0.35, anchor="center")
-
-password_entry = CTkEntry(frame, width=300, height=40, placeholder_text="Password", show="*", font=("Segoe UI", 16))
-password_entry.place(relx=0.5, rely=0.45, anchor="center")
-
-login_button = CTkButton(frame, text="Login", command=lambda: login(root, username_entry.get(), password_entry.get(), frame), width=150, height=40, corner_radius=10)
-login_button.place(relx=0.5, rely=0.55, anchor="center")
-
-root.mainloop()
