@@ -155,11 +155,46 @@ def open_new_interface(user):
     lefty_frame.pack(fill="both", expand=True)
 
     instructor_frame = CTkFrame(main_frame, width=1200, height=800, corner_radius=10, fg_color="white")
-    
+    # Frame 1: Manoj Shrestha
     instructor1_frame = CTkFrame(instructor_frame, fg_color="black", corner_radius=10)
     instructor1_frame.place(relx=0.75, rely=0.3, anchor="center", relwidth=0.35, relheight=0.4)
-    
-    
+
+    manoj_label = CTkLabel(instructor1_frame, text="Manoj Shrestha", text_color="white", font=("Helvetica", 20, "bold"))
+    manoj_label.pack(pady=(10, 5))
+
+    manoj_description = CTkLabel(instructor1_frame, text="Description: Manoj Shrestha employs a hands-on approach to teaching. He focuses on practical applications of programming concepts and encourages students to engage in coding exercises during class.\n\nPraise: Students love Manoj's interactive sessions and the real-world examples he provides. His emphasis on practice helps students gain confidence in their coding skills.", text_color="white", wraplength=250, font=("Helvetica", 16))
+    manoj_description.pack(pady=(5, 10))
+
+    # Frame 2: Giri Raj Rawat
+    instructor2_frame = CTkFrame(instructor_frame, fg_color="black", corner_radius=10)
+    instructor2_frame.place(relx=0.2, rely=0.3, anchor="center", relwidth=0.35, relheight=0.4)
+
+    giri_label = CTkLabel(instructor2_frame, text="Giri Raj Rawat", text_color="white", font=("Helvetica", 20, "bold"))
+    giri_label.pack(pady=(10, 5))
+
+    giri_description = CTkLabel(instructor2_frame, text="Description: Giri Raj Rawat emphasizes conceptual understanding and theoretical knowledge. He often uses visual aids and diagrams to explain algorithms and their underlying principles.\n\nPraise: Students appreciate Giri Raj's thorough explanations and the use of visuals, which make complex topics easier to grasp. His deep dives into theory help students appreciate the intricacies of programming.", text_color="white", wraplength=250, font=("Helvetica", 16))
+    giri_description.pack(pady=(5, 10))
+
+    # Frame 3: Siddhartha Neupane
+    instructor3_frame = CTkFrame(instructor_frame, fg_color="black", corner_radius=10)
+    instructor3_frame.place(relx=0.75, rely=0.78, anchor="center", relwidth=0.35, relheight=0.4)
+
+    siddhartha_label = CTkLabel(instructor3_frame, text="Siddhartha Neupane", text_color="white", font=("Helvetica", 20, "bold"))
+    siddhartha_label.pack(pady=(10, 5))
+
+    siddhartha_description = CTkLabel(instructor3_frame, text="Description: Siddhartha Neupane integrates a collaborative learning approach. He often organizes group discussions and projects to facilitate peer learning and knowledge sharing among students.\n\nPraise: Students enjoy Siddhartha's collaborative style and the opportunity to learn from their peers. His approach fosters a supportive learning environment and enhances critical thinking.", text_color="white", wraplength=250, font=("Helvetica", 16))
+    siddhartha_description.pack(pady=(5, 10))
+
+    # Frame 4: Ayush Kaji Dangol
+    instructor4_frame = CTkFrame(instructor_frame, fg_color="black", corner_radius=10)
+    instructor4_frame.place(relx=0.2, rely=0.78, anchor="center", relwidth=0.35, relheight=0.4)
+
+    ayush_label = CTkLabel(instructor4_frame, text="Ayush Kaji Dangol", text_color="white", font=("Helvetica", 20, "bold"))
+    ayush_label.pack(pady=(10, 5))
+
+    ayush_description = CTkLabel(instructor4_frame, text="Description: Ayush Kaji focuses on innovation and creativity in programming. He encourages students to think outside the box and come up with unique solutions to problems.\n\nPraise: Students admire Ayush's encouragement of creative problem-solving and his ability to inspire innovative thinking. His classes are engaging and push students to explore new ideas.", text_color="white", wraplength=250, font=("Helvetica", 16))
+    ayush_description.pack(pady=(5, 10))
+
     
     def show_instructor_frame():
         lefty_frame.pack_forget()
@@ -328,15 +363,18 @@ def open_new_interface(user):
     add_button.place(relx=0.1, rely=0.75, anchor="w")
 
     delete_button = CTkButton(lefty_frame, text="Delete", command=delete_data, width=150, height=40, corner_radius=10)
-    delete_button.place(relx=0.2, rely=0.75, anchor="w")
+    delete_button.place(relx=0.3, rely=0.75, anchor="w")
 
-    edit_button = CTkButton(lefty_frame, text="Edit", command=edit_data, width=150, height=40, corner_radius=10, fg_color="blue")
-    edit_button.place(relx=0.4, rely=0.75, anchor="w")
+    update_button = CTkButton(lefty_frame, text="Update", command=edit_data, width=150, height=40, corner_radius=10, fg_color="blue")
+    update_button.place(relx=0.1, rely=0.85, anchor="w")
 
     # Frame to display the added student data
     display_frame = CTkFrame(lefty_frame, fg_color="gray20", corner_radius=10)
     display_frame.place(relx=0.75, rely=0.3, anchor="center", relwidth=0.35, relheight=0.4)
-
+    
+    knowinstructor = CTkLabel(lefty_frame, text="To choose the perfect instructor for your needs, simply click on the instructor's button above to learn more about them.\nEach instructor's profile will provide insights into their teaching style and expertise.\nMake an informed decision by exploring their descriptions before making your selection", text_color="white", wraplength=250, font=("Helvetica", 16))
+    knowinstructor.place(relx=0.75, rely=0.7, anchor="center")
+    
     def update_display(student_name, course, year, instructor_name):
         for widget in display_frame.winfo_children():
             widget.destroy()
