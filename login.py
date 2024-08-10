@@ -130,8 +130,10 @@ def open_new_interface(user):
 
     contact_button = CTkButton(new_window, text="Contact", width=150, height=48, corner_radius=10, fg_color="Yellow", text_color="black", command=show_contact)
     contact_button.place(relx=0.8, rely=0.1, anchor="nw")
-
     
+    # instructor_button = CTkButton(new_window, text="Instructor", width=150, height=48, corner_radius=10, fg_color="Yellow", text_color="black")
+    # instructor_button.place(relx=0.6, rely=0.1, anchor="nw")
+   
     
     try:
         profile_icon = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\profile.ico"), size=(40, 40))
@@ -143,14 +145,42 @@ def open_new_interface(user):
     username = user[3]  # Assuming the username is the fourth element in the user tuple
     profile_button = CTkButton(new_window, text=username, image=profile_icon, compound="left", width=150, height=40, corner_radius=10, fg_color="Yellow", text_color="black")
     profile_button.place(relx=0.9, rely=0.1, anchor="nw")
-
-
-
     
+    
+    # Frame to hold the lefty frame and instructor frame
+    main_frame = CTkFrame(new_window, width=1200, height=800, corner_radius=10, fg_color="transparent")
+    main_frame.place(relx=0.4, rely=0.58, anchor="center")
+
+    lefty_frame = CTkFrame(main_frame, width=1200, height=800, corner_radius=10, fg_color="black")
+    lefty_frame.pack(fill="both", expand=True)
+
+    instructor_frame = CTkFrame(main_frame, width=1200, height=800, corner_radius=10, fg_color="white")
+    
+    instructor1_frame = CTkFrame(instructor_frame, fg_color="black", corner_radius=10)
+    instructor1_frame.place(relx=0.75, rely=0.3, anchor="center", relwidth=0.35, relheight=0.4)
+    
+    
+    
+    def show_instructor_frame():
+        lefty_frame.pack_forget()
+        instructor_frame.pack(fill="both", expand=True)
+
+    def show_home_frame():
+        instructor_frame.pack_forget()
+        lefty_frame.pack(fill="both", expand=True)
+
+    # Buttons to switch between frames
+    instructor_button = CTkButton(new_window, text="Instructor", width=150, height=48, corner_radius=10, fg_color="Yellow", text_color="black", command=show_instructor_frame)
+    instructor_button.place(relx=0.6, rely=0.1, anchor="nw")
+
+    home_button = CTkButton(new_window, text="Home", width=150, height=48, corner_radius=10, fg_color="Yellow", text_color="black", command=show_home_frame)
+    home_button.place(relx=0.5, rely=0.1, anchor="nw")
 
 
-    lefty_frame = CTkFrame(new_window, width=1200, height=800, corner_radius=10,fg_color="black")
-    lefty_frame.place(relx=0.4, rely=0.58, anchor="center")
+
+
+    # lefty_frame = CTkFrame(new_window, width=1200, height=800, corner_radius=10,fg_color="black")
+    # lefty_frame.place(relx=0.4, rely=0.58, anchor="center")
 
     # try:
     #     lefty_bg_image = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\coversss.png"), size=(1200, 800))
