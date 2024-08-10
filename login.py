@@ -153,10 +153,25 @@ def open_new_interface(user):
 
     lefty_frame = CTkFrame(main_frame, width=1200, height=800, corner_radius=10, fg_color="black")
     lefty_frame.pack(fill="both", expand=True)
+    
+    try:
+        lefty_bg_image = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\leftyimage.png"), size=(1200, 800))
+        lefty_bg_label = CTkLabel(lefty_frame, image=lefty_bg_image, text="", fg_color="transparent")
+        lefty_bg_label.place(relx=0.5, rely=0.5, anchor="center")
+    except Exception as e:
+        print(f"Error loading lefty_frame background image: {e}")
 
-    instructor_frame = CTkFrame(main_frame, width=1200, height=800, corner_radius=10, fg_color="white")
+    instructor_frame = CTkFrame(main_frame, width=1200, height=800, corner_radius=10)
+    try:
+        instructor_bg_image = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\orginalfinal.png"), size=(1200, 800))
+        instructor_bg_label = CTkLabel(instructor_frame, image=instructor_bg_image, text="", fg_color="transparent")
+        instructor_bg_label.place(relx=0.5, rely=0.5, anchor="center")
+    except Exception as e:
+        print(f"Error loading instructor frame background image: {e}")
+    
+    
     # Frame 1: Manoj Shrestha
-    instructor1_frame = CTkFrame(instructor_frame, fg_color="black", corner_radius=10)
+    instructor1_frame = CTkFrame(instructor_frame, fg_color="gray20", corner_radius=10)
     instructor1_frame.place(relx=0.75, rely=0.3, anchor="center", relwidth=0.35, relheight=0.4)
 
     manoj_label = CTkLabel(instructor1_frame, text="Manoj Shrestha", text_color="white", font=("Helvetica", 20, "bold"))
@@ -166,7 +181,7 @@ def open_new_interface(user):
     manoj_description.pack(pady=(5, 10))
 
     # Frame 2: Giri Raj Rawat
-    instructor2_frame = CTkFrame(instructor_frame, fg_color="black", corner_radius=10)
+    instructor2_frame = CTkFrame(instructor_frame, fg_color="gray20", corner_radius=10)
     instructor2_frame.place(relx=0.2, rely=0.3, anchor="center", relwidth=0.35, relheight=0.4)
 
     giri_label = CTkLabel(instructor2_frame, text="Giri Raj Rawat", text_color="white", font=("Helvetica", 20, "bold"))
@@ -176,7 +191,7 @@ def open_new_interface(user):
     giri_description.pack(pady=(5, 10))
 
     # Frame 3: Siddhartha Neupane
-    instructor3_frame = CTkFrame(instructor_frame, fg_color="black", corner_radius=10)
+    instructor3_frame = CTkFrame(instructor_frame, fg_color="gray20", corner_radius=10)
     instructor3_frame.place(relx=0.75, rely=0.78, anchor="center", relwidth=0.35, relheight=0.4)
 
     siddhartha_label = CTkLabel(instructor3_frame, text="Siddhartha Neupane", text_color="white", font=("Helvetica", 20, "bold"))
@@ -186,31 +201,42 @@ def open_new_interface(user):
     siddhartha_description.pack(pady=(5, 10))
 
     # Frame 4: Ayush Kaji Dangol
-    instructor4_frame = CTkFrame(instructor_frame, fg_color="black", corner_radius=10)
+    instructor4_frame = CTkFrame(instructor_frame, fg_color="gray20", corner_radius=10)
     instructor4_frame.place(relx=0.2, rely=0.78, anchor="center", relwidth=0.35, relheight=0.4)
 
     ayush_label = CTkLabel(instructor4_frame, text="Ayush Kaji Dangol", text_color="white", font=("Helvetica", 20, "bold"))
     ayush_label.pack(pady=(10, 5))
 
     ayush_description = CTkLabel(instructor4_frame, text="Description: Ayush Kaji focuses on innovation and creativity in programming. He encourages students to think outside the box and come up with unique solutions to problems.\n\nPraise: Students admire Ayush's encouragement of creative problem-solving and his ability to inspire innovative thinking. His classes are engaging and push students to explore new ideas.", text_color="white", wraplength=250, font=("Helvetica", 16))
-    ayush_description.pack(pady=(5, 10))
+    ayush_description.pack(pady=(5, 10)) 
 
+    
+    def show_home_frame():
+        instructor_frame.pack_forget()
+        lefty_frame.pack(fill="both", expand=True)
     
     def show_instructor_frame():
         lefty_frame.pack_forget()
         instructor_frame.pack(fill="both", expand=True)
 
-    def show_home_frame():
-        instructor_frame.pack_forget()
-        lefty_frame.pack(fill="both", expand=True)
+    
 
-    # Buttons to switch between frames
-    instructor_button = CTkButton(new_window, text="Instructor", width=150, height=48, corner_radius=10, fg_color="Yellow", text_color="black", command=show_instructor_frame)
-    instructor_button.place(relx=0.6, rely=0.1, anchor="nw")
+    
 
     home_button = CTkButton(new_window, text="Home", width=150, height=48, corner_radius=10, fg_color="Yellow", text_color="black", command=show_home_frame)
     home_button.place(relx=0.5, rely=0.1, anchor="nw")
-
+    
+    # Buttons to switch between frames
+    instructor_button = CTkButton(new_window, text="Instructor", width=150, height=48, corner_radius=10, fg_color="Yellow", text_color="black", command=show_instructor_frame)
+    instructor_button.place(relx=0.6, rely=0.1, anchor="nw")
+    
+    
+    # try:
+    #     instructor_bg_image = CTkImage(dark_image=Image.open("D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\informal.jpg"), size=(1200, 800))
+    #     instructor_bg_label = CTkLabel(instructor_frame, image=instructor_bg_image, text="", fg_color="transparent")
+    #     instructor_bg_label.place(relx=0.5, rely=0.5, anchor="center")
+    # except Exception as e:
+    #     print(f"Error loading instructor frame background image: {e}")
 
 
 
@@ -369,11 +395,16 @@ def open_new_interface(user):
     update_button.place(relx=0.1, rely=0.85, anchor="w")
 
     # Frame to display the added student data
-    display_frame = CTkFrame(lefty_frame, fg_color="gray20", corner_radius=10)
+#   display_frame = CTkFrame(lefty_frame, 
+#                         fg_color="black", 
+#                         corner_radius=-10)  # Adjust corner_radius as needed
+
+# # Position the frame within lefty_frame
+#    display_frame.place(relx=0.75, rely=0.3, anchor="center", relwidth=0.35, relheight=0.4)
+     
+    display_frame = CTkFrame(lefty_frame, fg_color="black", corner_radius=10)
     display_frame.place(relx=0.75, rely=0.3, anchor="center", relwidth=0.35, relheight=0.4)
     
-    knowinstructor = CTkLabel(lefty_frame, text="To choose the perfect instructor for your needs, simply click on the instructor's button above to learn more about them.\nEach instructor's profile will provide insights into their teaching style and expertise.\nMake an informed decision by exploring their descriptions before making your selection", text_color="white", wraplength=250, font=("Helvetica", 16))
-    knowinstructor.place(relx=0.75, rely=0.7, anchor="center")
     
     def update_display(student_name, course, year, instructor_name):
         for widget in display_frame.winfo_children():
