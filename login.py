@@ -379,11 +379,11 @@ def open_new_interface(user):
             conn.commit()
             conn.close()
 
-            messagebox.showinfo("Success", "Data updated successfully")
+            messagebox.showinfo("Success", "Data updated successfully",parent = new_window)
             update_display(student_name, course, year, instructor_name)
         except Exception as e:
             print(f"Error updating data in student database: {e}")
-            messagebox.showerror("Database Error", "Failed to update data")
+            messagebox.showerror("Database Error", "Failed to update data",parent = new_window)
 
     add_button = CTkButton(lefty_frame, text="Add", command=add_data, width=150, height=40, corner_radius=10)
     add_button.place(relx=0.1, rely=0.75, anchor="w")
