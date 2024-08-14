@@ -379,7 +379,7 @@ def open_new_interface(user):
             conn.commit()
             conn.close()
 
-            messagebox.showinfo("Success", "Data updated successfully",parent = new_window)
+            messagebox.showinfo("Success", "Data updated successfully",parent = new_window)c
             update_display(student_name, course, year, instructor_name)
         except Exception as e:
             print(f"Error updating data in student database: {e}")
