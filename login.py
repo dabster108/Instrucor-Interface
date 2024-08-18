@@ -3,6 +3,8 @@ from tkinter import messagebox
 from customtkinter import CTk, CTkToplevel, CTkLabel, CTkImage, CTkButton, CTkFrame, CTkEntry, CTkComboBox
 from PIL import Image
 import webbrowser
+import time
+import threading
 
 
 # Function to create the student database and table
@@ -292,6 +294,17 @@ def open_new_interface(user):
         right_bg_label.place(relx=0.5, rely=0.5, anchor="center")
     except Exception as e:
         print(f"Error loading right_frame background image: {e}")
+    
+    
+    time_label = CTkLabel(right_frame, text="", fg_color="transparent", font=("Arial", 22),corner_radius=35)
+    time_label.place(relx=0.95, rely=0.05, anchor="ne")  # Position at top-right corner
+
+    def update_time():
+        current_time = time.strftime("%H:%M:%S")
+        time_label.configure(text=current_time)
+        time_label.after(1000, update_time)  # Update time every 1 second
+
+    update_time()  # Start the time update loop
     
    
 
