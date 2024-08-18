@@ -285,8 +285,15 @@ def open_new_interface(user):
     right_frame = CTkFrame(new_window, width=480, height=750, corner_radius=10,fg_color="gray")
     right_frame.place(relx=0.86, rely=0.58, anchor="center")
     
-    resources_label = CTkLabel(right_frame, text="Resources", font=("Segoe UI", 20, "bold"), text_color="white")
-    resources_label.place(relx=0.5, rely=0.1, anchor="center")
+    try:
+        # Load and set the background image for the right_frame
+        right_bg_image = CTkImage(dark_image=Image.open(r"D:\Project Examasap\INSTRUCTOR\Instrucor-Interface\new_frame.jpg"), size=(480, 750))
+        right_bg_label = CTkLabel(right_frame, image=right_bg_image, text="", fg_color="transparent")
+        right_bg_label.place(relx=0.5, rely=0.5, anchor="center")
+    except Exception as e:
+        print(f"Error loading right_frame background image: {e}")
+    
+   
 
 # Function to open URLs
     def open_resource(url):
@@ -379,7 +386,7 @@ def open_new_interface(user):
             conn.commit()
             conn.close()
 
-            messagebox.showinfo("Success", "Data updated successfully",parent = new_window)c
+            messagebox.showinfo("Success", "Data updated successfully",parent = new_window)
             update_display(student_name, course, year, instructor_name)
         except Exception as e:
             print(f"Error updating data in student database: {e}")
