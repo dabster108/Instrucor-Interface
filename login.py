@@ -351,7 +351,7 @@ def open_new_interface(user):
             update_display(student_name, course, year, instructor_name)
         except Exception as e:
             print(f"Error adding data to student database: {e}")
-            messagebox.showerror("Database Error", "Failed to add data",parent = new_window)
+            messagebox.showerror("Database Error", "Failed to add data")#parent = new_window
 
     def delete_data():
         student_name = student_name_entry.get()
@@ -444,3 +444,8 @@ def open_new_interface(user):
 
     # Initialize with no data
     update_display("", "", "", "")
+    
+    
+    
+    create_student_db()
+    create_login_db()
