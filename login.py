@@ -13,7 +13,7 @@ def create_student_db():
         conn = sqlite3.connect('studentname.db')
         cursor = conn.cursor()
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS students (
+            CREATE TABLE IF NOT EXISTS student  s (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 student_name TEXT,
                 course TEXT,
@@ -147,6 +147,10 @@ def open_new_interface(user):
     username = user[3]  # Assuming the username is the fourth element in the user tuple
     profile_button = CTkButton(new_window, text=username, image=profile_icon, compound="left", width=150, height=40, corner_radius=10, fg_color="Yellow", text_color="black")
     profile_button.place(relx=0.9, rely=0.1, anchor="nw")
+    
+    
+    
+    
     
     
     # Frame to hold the lefty frame and instructor frame
@@ -325,7 +329,6 @@ def open_new_interface(user):
     resource4_button = CTkButton(right_frame, text="Resource 4", width=200, height=50, corner_radius=10, command=lambda: open_resource("https://www.edx.org/course/introduction-to-computer-science-and-programming"))
     resource4_button.place(relx=0.5, rely=0.55, anchor="center")
         
-    
 
     def add_data():
         student_name = student_name_entry.get()
